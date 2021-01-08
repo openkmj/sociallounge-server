@@ -1,0 +1,140 @@
+{
+    "user":{
+        "userId":1,
+        "userName":"김민재",
+        "userEmail":"openkmj@gmail.com",
+        "userPassword":"minjae123",
+        "userGender":1,
+        "userAge":2,
+        "userPhone":"010-3507-3290",
+        "userItemList":[
+            1,3,4
+        ]
+    },
+    "item":[
+        {
+            "itemId":1,
+            "itemTitle":"독서모임 4기",
+            "itemSubtitle":"읽기 크크크",
+            "itemDesc":"",
+            "itemMaxMember":8,
+            "itemSchedule":"",
+            "itemPrice":50000,
+            "itemLocation":"소셜라운지 사무실",
+            "itemLocationDetail":"안산시 어쩌구 저쩌구",
+            "itemImgList":[
+                {
+                    "itemImgTitle":"독서모임 4기 썸네일 이미지",
+                    "itemImgSrc":"https://www.sociallounge.kr/"
+                },
+                {
+                    "itemImgTitle":"독서모임 4기 커리큘럼 이미지",
+                    "itemImgSrc":"https://www.sociallounge.kr/"
+                }
+            ],
+            "itemApplyStartDay":20201215,
+            "itemApplyEndDay":20210115,
+            "itemHashTags":[
+                "독서","소모임","독후감"
+            ]
+        }
+    ],
+    "faq":[
+        {
+            "faqId":1,
+            "faqTitle":"회원가입은 어떻게 하나요?",
+            "faqDesc":"소셜라운지 회원가입은 페이스북, 카카오톡으로 가능합니다.",
+            "faqType":1, 
+            "faqReadCnt":0
+        },
+        {
+            "faqId":2,
+            "faqTitle":"신청을 취소하고 싶어요.",
+            "faqDesc":"신청을 취소하시려면 마이페이지 > 내 신청목록에서 신청 취소 버튼을 눌러주세요. 팝업이 뜨고 취소 및 환불에 대한 내용을 확인하시고 취소 사유를 입력해주시면 됩니다. 단, 신청 취소를 취소할 수는 없으니 새로이 신청해주시길 바랍니다.",
+            "faqType":2,
+            "faqReadCnt":0
+        },
+        {
+            "faqId":3,
+            "faqTitle":"환불 규정은 어떻게 되나요.",
+            "faqDesc":"환불 규정은 소셜라운지 이용약관 > 환불규정을 통해서 확인하실 수 있습니다. 아래 링크를 참고해주세요. https://sociallounge.kr/",
+            "faqType":4,
+            "faqReadCnt":0
+        },
+        {
+            "faqId":4,
+            "faqTitle":"환불처리는 언제 되나요?",
+            "faqDesc":"환불은 결제 방식에 따라 다르게 환불되며 카드결제시 2~3 영업일, 카카오페이는 1 영업일정도 소요됩니다.",
+            "faqType":4,
+            "faqReadCnt":0
+        },
+        {
+            "faqId":5,
+            "faqTitle":"소셜라운지와 멋진 클래스를 운영하고 싶어요.",
+            "faqDesc":"헉 감사합니다. 소셜라운지 카카오 채널로 문의하시면 가장 빨리 답장을 받아보실 수 있습니다.",
+            "faqType":5,
+            "faqReadCnt":0
+        },
+        {
+            "faqId":6,
+            "faqTitle":"소셜라운지 사무실을 대여할 수 있나요?",
+            "faqDesc":"네 가능합니다. 소셜라운지 카카오 채널을 통해 1대1 문의해주세요.",
+            "faqType":5,
+            "faqReadCnt":0
+        },
+        {
+            "faqId":7,
+            "faqTitle":"소모임/클래스는 어디에서 진행되나요?",
+            "faqDesc":"소셜라운지 사무실에서 진행됩니다.",
+            "faqType":3,
+            "faqReadCnt":0
+        },
+        {
+            "faqId":8,
+            "faqTitle":"소셜라운지 사무실, 주차 가능한가요?",
+            "faqDesc":"바로 앞에 유료 주차장이 있긴해요...",
+            "faqType":3,
+            "faqReadCnt":0
+        }
+    ]},
+    "notice":[
+        {
+            "noticeId":1,
+            "noticeTitle":"소셜라운지 웹이 오픈했습니다.",
+            "noticeDesc":"안녕하세요. 소셜라운지입니다. 소셜라운지에서 12월 31일, 드디어 홈페이지가 오픈했습니다!!! 곧 다가올 새해처럼 소셜라운지도 새 웹과 함께 또 새로운 마음으로 힘차게 앞으로 나아가겠습니다. 언제나 많은 사랑 주시는 여러분께 감사드립니다.",
+            "noticeReadCnt":0
+        },
+        {
+            "noticeId":2,
+            "noticeTitle":"1월 1일 상담 문의 제한 안내",
+            "noticeDesc":"안녕하세요. 소셜라운지입니다. 1월 1일 새해 당일날은 소셜라운지 1대1 상담(카카오톡, 인스타)이 불가함을 알려드립니다. 하루 쉬고 올테니 아쉬워 마시고 새해 복 많이 받으세요들^^",
+            "noticeReadCnt":0
+        },
+        {
+            "noticeId":3,
+            "noticeTitle":"코로나로 인한 사회적 거리두기 1단계 해제 안내",
+            "noticeDesc":"안녕하세요. 소셜라운지입니다. 드디어 코로나가 잠잠해지고 사회적 거리두기 1단계도 해제되었습니다. 하지만 혹시모를 위험을 위해 저희 소셜라운지에서는 주기적으로 방역을 진행하고 있습니다. 안심하시고 참여하세요.",
+            "noticeReadCnt":0
+        }
+    ],
+    "admin":[
+        {
+            "adminId":1,
+            "adminName":"mjkim",
+            "adminPassword":"sociallounge123",
+            "adminType":0 
+        },
+        {
+            "adminId":2,
+            "adminName":"jhkim",
+            "adminPassword":"sociallounge123",
+            "adminType":1 
+        },
+        {
+            "adminId":3,
+            "adminName":"dychoi",
+            "adminPassword":"sociallounge123",
+            "adminType":1
+        }
+    ]
+}
