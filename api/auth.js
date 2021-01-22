@@ -136,5 +136,10 @@ auth_api.get("/name", authenticateUser, (req, res) => {
     }
 });
 
+auth_api.get("/logout", authenticateUser, (req, res) => {
+    req.logout();
+    res.json({ result: "success" });
+});
+
 exports.auth_api = auth_api;
 exports.authenticateUser = authenticateUser;
