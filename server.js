@@ -1,10 +1,7 @@
 var express = require("express");
 var app = express();
 var session = require("express-session");
-var passport = require("passport");
-var server = app.listen(3000, function () {
-    console.log("MJserver now available");
-});
+var { passport } = require("./modules/auth");
 
 var api = require("./api/index");
 var bodyParser = require("body-parser");
@@ -22,10 +19,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-// 카카오톡 로그인 구현
-
-// 카카오톡 로그인 구현
 
 app.get("/test", (req, res) => {
     res.json({
@@ -45,12 +38,6 @@ app.post("/echo", (req, res) => {
 
 app.use("/api", api);
 
-app.get("/hihihihi", (req, res) => {
-    res.redirect("https://www.google.com");
-});
-
-app.use(express.static(__dirname + "/build"));
-
-app.get("*", (req, res) => {
-    res.sendFile(__dirname + "/build/index.html");
+var server = app.listen(3000, function () {
+    console.log("MJserver now available");
 });

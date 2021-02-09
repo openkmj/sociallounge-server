@@ -1,16 +1,6 @@
 var express = require("express");
-var request = require("request");
 var faq_api = express.Router();
-
-var mysql = require("mysql");
-var connection = mysql.createConnection({
-    host: "sociallounge.kr",
-    user: "min",
-    password: "sociallounge",
-    database: "sociallounge",
-});
-
-connection.connect();
+const getConnection = require("../modules/db");
 
 // ---------------------------------------------2020-10-22-완성--------------------------------------------------
 // normal api
@@ -22,25 +12,28 @@ faq_api.get("/", (req, res) => {
     var responseData = {};
     var sql = "SELECT * FROM FAQ WHERE DEL_YN = 'N'";
     var params = [];
-    connection.query(sql, (err, result) => {
-        if (result) {
-            responseData.resultCode = "OK";
-            responseData.data = result.map((item) => ({
-                faqId: item.FAQ_ID,
-                faqTitle: item.TITLE,
-                faqDesc: item.DESC,
-                faqType: item.TYPE,
-                faqEditDate: item.FAQ_EDIT_DATE,
-            }));
-            console.log("------get faq called------");
-            console.log(new Date());
-            console.log("--------------------------");
-        } else {
-            // 해당 값이 없음
-            console.log(result);
-            responseData.resultCode = "1";
-        }
-        res.json(responseData);
+    getConnection((conn) => {
+        conn.query(sql, (err, result) => {
+            if (result) {
+                responseData.resultCode = "OK";
+                responseData.data = result.map((item) => ({
+                    faqId: item.FAQ_ID,
+                    faqTitle: item.TITLE,
+                    faqDesc: item.DESC,
+                    faqType: item.TYPE,
+                    faqEditDate: item.FAQ_EDIT_DATE,
+                }));
+                console.log("------get faq called------");
+                console.log(new Date());
+                console.log("--------------------------");
+            } else {
+                // 해당 값이 없음
+                console.log(result);
+                responseData.resultCode = "1";
+            }
+            res.json(responseData);
+        });
+        conn.release();
     });
 });
 // --------------------------------------------//2020-10-22-완성--------------------------------------------------
@@ -63,16 +56,19 @@ faq_api.post("/", (req, res) => {
     if (!req.body.title || !req.body.desc || !req.body.type) {
         responseData.result = "invalid input";
     } else {
-        connection.query(sql, params, (err, result) => {
-            if (result) {
-                responseData.result = "ok";
-                responseData.id = result.insertId;
-                console.log(result);
-                console.log(req.body.title, req.body.desc, req.body.type);
-            } else {
-                responseData.result = "fail";
-            }
-            res.json(responseData);
+        getConnection((conn) => {
+            conn.query(sql, params, (err, result) => {
+                if (result) {
+                    responseData.result = "ok";
+                    responseData.id = result.insertId;
+                    console.log(result);
+                    console.log(req.body.title, req.body.desc, req.body.type);
+                } else {
+                    responseData.result = "fail";
+                }
+                res.json(responseData);
+            });
+            conn.release();
         });
     }
 });
@@ -88,13 +84,16 @@ faq_api.delete("/:id", (req, res) => {
     var responseData = {};
     var sql = "DELETE FROM FAQ WHERE FAQ_ID = ?";
     var params = [req.params.id];
-    connection.query(sql, params, (err, result) => {
-        if (result) {
-            responseData.result = "ok";
-        } else {
-            responseData.result = "fail";
-        }
-        res.json(responseData);
+    getConnection((conn) => {
+        conn.query(sql, params, (err, result) => {
+            if (result) {
+                responseData.result = "ok";
+            } else {
+                responseData.result = "fail";
+            }
+            res.json(responseData);
+        });
+        conn.release();
     });
 });
 
@@ -116,13 +115,16 @@ faq_api.put("/:id", (req, res) => {
     if (!req.body.title || !req.body.desc || !req.body.type) {
         responseData.result = "invalid input";
     } else {
-        connection.query(sql, params, (err, result) => {
-            if (result) {
-                responseData.result = "ok";
-            } else {
-                responseData.result = "fail";
-            }
-            res.json(responseData);
+        getConnection((conn) => {
+            conn.query(sql, params, (err, result) => {
+                if (result) {
+                    responseData.result = "ok";
+                } else {
+                    responseData.result = "fail";
+                }
+                res.json(responseData);
+            });
+            conn.release();
         });
     }
 });
