@@ -14,21 +14,57 @@ moim_api.get("/", (req, res) => {
     console.log(sql);
     var params = [];
     getConnection((conn) => {
-        conn.query(sql, (err, result) => {
-            if (result) {
-                console.log(result);
-                responseData.resultCode = "OK";
-                responseData.data = result.map((item) => ({}));
-                console.log("------get moimList called------");
-                console.log(new Date());
-                console.log("-----------------------------");
+        conn.query("SELECT * FROM SEASON WHERE VIEW_YN='Y'", (err, result) => {
+            if (err) responseData.result = "QUERY ERROR";
+            else if (result) {
+                responseData.result = "OK";
+                responseData.data = {};
+                responseData.data.season = result[0];
+                conn.query(sql, (err, result) => {
+                    if (result) {
+                        responseData.result = "OK";
+                        responseData.data.seaonMoim = result.filter(
+                            (i) => i.TYPE == "S"
+                        );
+                        responseData.data.eventMoim = result.filter(
+                            (i) => i.TYPE === "E"
+                        );
+                        console.log("------get moimList called------");
+                        console.log(new Date());
+                        console.log("-----------------------------");
+                    } else {
+                        // 해당 값이 없음
+                        console.log(err);
+                        responseData.resultCode = "1";
+                    }
+                    res.json(responseData);
+                });
             } else {
-                // 해당 값이 없음
-                console.log(err);
-                responseData.resultCode = "1";
+                responseData.result = "NO DATA";
             }
-            res.json(responseData);
         });
+
+        conn.release();
+    });
+});
+
+moim_api.get("/:id", (req, res) => {
+    var responseData = {};
+    getConnection((conn) => {
+        conn.query(
+            "SELECT * FROM MOIM WHERE MOIM_ID = ?",
+            [req.params.id],
+            (err, result) => {
+                if (err) responseData.result = "QUERY ERROR";
+                else if (result) {
+                    responseData.result = "OK";
+                    responseData.data = result[0];
+                } else {
+                    responseData.result = "NO DATA";
+                }
+                res.json(responseData);
+            }
+        );
         conn.release();
     });
 });
