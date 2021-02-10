@@ -1,8 +1,7 @@
 var express = require("express");
+const { faq } = require("../models");
 var faq_api = express.Router();
-const getConnection = require("../modules/db");
 
-// ---------------------------------------------2020-10-22-완성--------------------------------------------------
 // normal api
 // get all FAQ
 // req params: none
@@ -10,123 +9,33 @@ const getConnection = require("../modules/db");
 //
 faq_api.get("/", (req, res) => {
     var responseData = {};
-    var sql = "SELECT * FROM FAQ WHERE DEL_YN = 'N'";
-    var params = [];
-    getConnection((conn) => {
-        conn.query(sql, (err, result) => {
-            if (result) {
-                responseData.resultCode = "OK";
-                responseData.data = result.map((item) => ({
-                    faqId: item.FAQ_ID,
-                    faqTitle: item.TITLE,
-                    faqDesc: item.DESC,
-                    faqType: item.TYPE,
-                    faqEditDate: item.FAQ_EDIT_DATE,
-                }));
-                console.log("------get faq called------");
-                console.log(new Date());
-                console.log("--------------------------");
-            } else {
-                // 해당 값이 없음
-                console.log(result);
-                responseData.resultCode = "1";
-            }
+    faq.findAll({
+        attributes: [
+            "id",
+            "title",
+            "description",
+            "type",
+            ["updatedAt", "date"],
+        ],
+        where: {
+            isShow: "Y",
+            isDel: "N",
+        },
+    })
+        .then((result) => {
+            responseData.resultCode = "OK";
+            responseData.success = true;
+            responseData.data = result;
+            console.log("------get faq called------");
+            console.log(new Date());
+            console.log("-----------------------------");
+            res.json(responseData);
+        })
+        .catch((err) => {
+            responseData.success = false;
+            responseData.resultCode = "QUERY ERROR";
             res.json(responseData);
         });
-        conn.release();
-    });
-});
-// --------------------------------------------//2020-10-22-완성--------------------------------------------------
-
-// admin api
-// create new FAQ
-// req params:
-//          title: 'title',
-//          desc: 'desc',
-//          type: 'type'
-// res params:
-//          result: 'result',
-//          id: 'id'
-//
-faq_api.post("/", (req, res) => {
-    var responseData = {};
-    var sql =
-        "INSERT INTO FAQ (FAQ_TITLE, FAQ_DESC, FAQ_TYPE) VALUES (?, ?, ?)";
-    var params = [req.body.title, req.body.desc, req.body.type];
-    if (!req.body.title || !req.body.desc || !req.body.type) {
-        responseData.result = "invalid input";
-    } else {
-        getConnection((conn) => {
-            conn.query(sql, params, (err, result) => {
-                if (result) {
-                    responseData.result = "ok";
-                    responseData.id = result.insertId;
-                    console.log(result);
-                    console.log(req.body.title, req.body.desc, req.body.type);
-                } else {
-                    responseData.result = "fail";
-                }
-                res.json(responseData);
-            });
-            conn.release();
-        });
-    }
-});
-
-// admin api
-// delete the FAQ
-// url params: id
-// req params: none
-// res params:
-//          result: 'result',
-//
-faq_api.delete("/:id", (req, res) => {
-    var responseData = {};
-    var sql = "DELETE FROM FAQ WHERE FAQ_ID = ?";
-    var params = [req.params.id];
-    getConnection((conn) => {
-        conn.query(sql, params, (err, result) => {
-            if (result) {
-                responseData.result = "ok";
-            } else {
-                responseData.result = "fail";
-            }
-            res.json(responseData);
-        });
-        conn.release();
-    });
-});
-
-// admin api
-// update the FAQ
-// url params: id
-// req params:
-//          title: 'title',
-//          desc: 'desc',
-//          type: 'type'
-// res params:
-//          result: 'result',
-//
-faq_api.put("/:id", (req, res) => {
-    var responseData = {};
-    var sql =
-        "UPDATE FAQ SET FAQ_TITLE = ?, FAQ_DESC = ?, FAQ_TYPE = ? WHERE (FAQ_ID = ?)";
-    var params = [req.body.title, req.body.desc, req.body.type, req.params.id];
-    if (!req.body.title || !req.body.desc || !req.body.type) {
-        responseData.result = "invalid input";
-    } else {
-        getConnection((conn) => {
-            conn.query(sql, params, (err, result) => {
-                if (result) {
-                    responseData.result = "ok";
-                } else {
-                    responseData.result = "fail";
-                }
-                res.json(responseData);
-            });
-            conn.release();
-        });
-    }
 });
 
 module.exports = faq_api;
