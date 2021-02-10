@@ -54,20 +54,16 @@ moim_api.get("/", (req, res) => {
 moim_api.get("/:id", (req, res) => {
     var responseData = {};
     getConnection((conn) => {
-        conn.query(
-            "SELECT * FROM MOIM WHERE MOIM_ID = ?",
-            [req.params.id],
-            (err, result) => {
-                if (err) responseData.result = "QUERY ERROR";
-                else if (result) {
-                    responseData.result = "OK";
-                    responseData.data = result[0];
-                } else {
-                    responseData.result = "NO DATA";
-                }
-                res.json(responseData);
+        conn.query(QUERY.GET_MOIM_DETAIL, [req.params.id], (err, result) => {
+            if (err) responseData.result = "QUERY ERROR";
+            else if (result) {
+                responseData.result = "OK";
+                responseData.data = result[0];
+            } else {
+                responseData.result = "NO DATA";
             }
-        );
+            res.json(responseData);
+        });
         conn.release();
     });
 });

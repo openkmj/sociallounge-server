@@ -3,7 +3,8 @@ const QUERY = {
     GET_MOIM_LIST:
         "SELECT MOIM_ID AS moimId, TITLE AS title, SUBTITLE AS subtitle, MAIN_IMG AS mainImg, TYPE AS type FROM sociallounge.MOIM WHERE ( SEASON_ID = (SELECT SEASON_ID FROM sociallounge.SEASON WHERE VIEW_YN = 'Y') AND VIEW_YN = 'Y' AND TYPE = 'S') OR (TYPE = 'E' AND VIEW_YN = 'Y')",
     //모임 상세 조회
-    GET_MOIM_DETAIL: "",
+    GET_MOIM_DETAIL:
+        "SELECT MOIM_ID AS moimId, TITLE AS title, SUBTITLE AS subtitle, MAIN_IMG AS mainImg, `DESC` AS `desc`, DESC_IMG AS descImg, MAX_MEMBER AS maxMember, PRICE AS price, HASHTAGS AS hashtags, DDAY AS dday, DDAY_IMG AS ddayImg, CURRICULUM AS curriculum, CURRICULUM_IMG AS curriculumImg, LOCATION AS location, LOCATION_DETAIL AS locationDetail FROM sociallounge.MOIM WHERE MOIM_ID = ?",
     //유저 정보 조회
     GET_USER_DETAIL: "",
     //유저 정보 수정
