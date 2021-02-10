@@ -14,35 +14,38 @@ moim_api.get("/", (req, res) => {
     console.log(sql);
     var params = [];
     getConnection((conn) => {
-        conn.query("SELECT * FROM SEASON WHERE VIEW_YN='Y'", (err, result) => {
-            if (err) responseData.result = "QUERY ERROR";
-            else if (result) {
-                responseData.result = "OK";
-                responseData.data = {};
-                responseData.data.season = result[0];
-                conn.query(sql, (err, result) => {
-                    if (result) {
-                        responseData.result = "OK";
-                        responseData.data.seaonMoim = result.filter(
-                            (i) => i.TYPE == "S"
-                        );
-                        responseData.data.eventMoim = result.filter(
-                            (i) => i.TYPE === "E"
-                        );
-                        console.log("------get moimList called------");
-                        console.log(new Date());
-                        console.log("-----------------------------");
-                    } else {
-                        // 해당 값이 없음
-                        console.log(err);
-                        responseData.resultCode = "1";
-                    }
-                    res.json(responseData);
-                });
-            } else {
-                responseData.result = "NO DATA";
+        conn.query(
+            "SELECT TITLE AS title, MAIN_IMG AS mainImg, START_DATE AS startDate, END_DATE AS endDate FROM SEASON WHERE VIEW_YN='Y'",
+            (err, result) => {
+                if (err) responseData.result = "QUERY ERROR";
+                else if (result) {
+                    responseData.result = "OK";
+                    responseData.data = {};
+                    responseData.data.season = result[0];
+                    conn.query(sql, (err, result) => {
+                        if (result) {
+                            responseData.result = "OK";
+                            responseData.data.seasonMoim = result.filter(
+                                (i) => i.type == "S"
+                            );
+                            responseData.data.eventMoim = result.filter(
+                                (i) => i.type === "E"
+                            );
+                            console.log("------get moimList called------");
+                            console.log(new Date());
+                            console.log("-----------------------------");
+                        } else {
+                            // 해당 값이 없음
+                            console.log(err);
+                            responseData.resultCode = "1";
+                        }
+                        res.json(responseData);
+                    });
+                } else {
+                    responseData.result = "NO DATA";
+                }
             }
-        });
+        );
 
         conn.release();
     });

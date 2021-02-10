@@ -1,7 +1,7 @@
 const QUERY = {
     //모임 리스트 조회
     GET_MOIM_LIST:
-        "SELECT * FROM sociallounge.MOIM WHERE ( SEASON_ID = (SELECT SEASON_ID FROM sociallounge.SEASON WHERE VIEW_YN = 'Y') AND VIEW_YN = 'Y' AND TYPE = 'S') OR (TYPE = 'E' AND VIEW_YN = 'Y')",
+        "SELECT MOIM_ID AS moimId, TITLE AS title, SUBTITLE AS subtitle, MAIN_IMG AS mainImg, TYPE AS type FROM sociallounge.MOIM WHERE ( SEASON_ID = (SELECT SEASON_ID FROM sociallounge.SEASON WHERE VIEW_YN = 'Y') AND VIEW_YN = 'Y' AND TYPE = 'S') OR (TYPE = 'E' AND VIEW_YN = 'Y')",
     //모임 상세 조회
     GET_MOIM_DETAIL: "",
     //유저 정보 조회
