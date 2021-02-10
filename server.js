@@ -2,9 +2,19 @@ var express = require("express");
 var app = express();
 var session = require("express-session");
 var { passport } = require("./modules/auth");
+var sequelize = require("./models/index").sequelize;
 
 var api = require("./api/index");
 var bodyParser = require("body-parser");
+
+sequelize
+    .sync()
+    .then(() => {
+        console.log("sequelize init success");
+    })
+    .catch((e) => {
+        console.log(e);
+    });
 
 // 미들웨어
 app.use(bodyParser.urlencoded({ extended: false }));

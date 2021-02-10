@@ -1,4 +1,5 @@
 var express = require("express");
+const { notice } = require("../models");
 var notice_api = express.Router();
 const getConnection = require("../modules/db");
 
@@ -10,57 +11,28 @@ const getConnection = require("../modules/db");
 //
 notice_api.get("/", (req, res) => {
     var responseData = {};
-    var sql = "SELECT * FROM NOTICE WHERE DEL_YN = 'N'";
-    var params = [];
-    getConnection((conn) => {
-        conn.query(sql, (err, result) => {
-            if (result) {
-                responseData.resultCode = "OK";
-                responseData.data = result.map((item) => ({
-                    noticeId: item.NOTICE_ID,
-                    noticeTitle: item.TITLE,
-                    noticeDesc: item.DESC,
-                    noticeDate: item.EDIT_DATE,
-                    noticeReadCnt: item.NOTICE_READ_CNT,
-                }));
-                console.log("------get notice called------");
-                console.log(new Date());
-                console.log("-----------------------------");
-            } else {
-                // 해당 값이 없음
-                responseData.resultCode = "1";
-            }
+    notice
+        .findAll({
+            attributes: ["title", "description"],
+            where: {
+                isShow: "Y",
+                isDel: "N",
+            },
+        })
+        .then((result) => {
+            responseData.resultCode = "OK";
+            responseData.success = true;
+            responseData.data = result;
+            console.log("------get notice called------");
+            console.log(new Date());
+            console.log("-----------------------------");
+            res.json(responseData);
+        })
+        .catch((err) => {
+            responseData.success = false;
+            responseData.resultCode = "QUERY ERROR";
             res.json(responseData);
         });
-        conn.release();
-    });
-});
-// --------------------------------------------//2020-10-22완성--------------------------------------------------
-
-// normal api
-// get all Notice
-// req params: none
-// res params:
-//          result: 'result',
-//          body: [{NOTICE_ID, NOTICE_TITLE, NOTICE_DESC, NOTICE_READ_CNT},{...}]
-//
-notice_api.get("/", (req, res) => {
-    var responseData = {};
-    var sql = "SELECT * FROM NOTICE";
-    var params = [];
-    getConnection((conn) => {
-        conn.query(sql, (err, result) => {
-            if (result) {
-                responseData.result = "ok";
-                responseData.data = result;
-                console.log(result);
-            } else {
-                responseData.result = "no data";
-            }
-            res.json(responseData);
-        });
-        conn.release();
-    });
 });
 
 // admin api
