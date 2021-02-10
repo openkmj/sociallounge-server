@@ -1,13 +1,9 @@
 var express = require("express");
 var apply_api = express.Router();
-
+var config = require("../consts/iamport_config");
 //아임포트 연동
 var Iamport = require("iamport");
-var iamport = new Iamport({
-    impKey: "4700514744750425",
-    impSecret:
-        "pj0EIxjajlgUvJFYaoybSLIOTfKD6nMvHMapktzDPPykyejJCRVvDDjxT4aZrXv8KFx487IXWhivwBf8",
-});
+var iamport = new Iamport(config);
 
 apply_api.post("/", (req, res) => {
     iamport.payment

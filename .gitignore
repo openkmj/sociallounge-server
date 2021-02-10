@@ -1,4 +1,5 @@
 build/
 node_modules/
 consts/db_config.js
+consts/iamport_config.js
 config/
